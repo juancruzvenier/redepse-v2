@@ -1,0 +1,80 @@
+/* Sidebar.module.css */
+.sidebar h2 {
+  color: white;
+  text-align: left;
+  background-color: transparent;
+  padding: 10px;
+  margin: 20px 0;
+  font-size: 1.2rem;
+  border-bottom: 1px solid #444; /* Línea decorativa bajo el título */
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #2b2c2b;
+    color: white;
+    height: 100vh;
+    padding: 20px;
+  }
+  
+  .logo img {
+    width: 100%;
+    max-width: 120px;
+    margin: 0 auto;
+    display: block;
+  }
+  
+  .nav {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .nav-item {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 10px;
+    background-color: transparent; /* Cambiado de #0059ff a transparente */
+    border-radius: 0; /* Elimina bordes redondeados */
+    transition: all 0.3s;
+    border-left: 4px solid transparent; /* Borde izquierdo inicial transparente */
+    margin-bottom: 5px; /* Espaciado entre items */
+    display: block;
+}
+  
+.nav-item:hover {
+  background-color: #444; /* Mantén el hover */
+  border-left: 4px solid #61a8f0; /* Borde izquierdo al hover */
+}
+  
+  .nav-item.active {
+    background-color: rgba(97, 168, 240, 0.1); /* Fondo sutil para activo */
+    border-left: 4px solid #61a8f0; /* Borde izquierdo azul */
+    color: #61a8f0; /* Texto azul */
+    font-weight: bold;
+}
+  
+  .nav-item.bloqueado {
+    background-color: gray;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  
+  .logout-btn {
+    margin-top: 40px;
+    width: 100%;
+    padding: 10px;
+    background-color: crimson;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .logout-btn:hover {
+    background-color: darkred;
+  }
+  
