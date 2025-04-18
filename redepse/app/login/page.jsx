@@ -1,85 +1,73 @@
+"use client";
+
+import { useState } from "react";
 import styles from "./login.module.css";
 import Image from "next/image";
-import logoSde from "@/app/img/favicon-sde.webp";
+import logo from "@/public/favicon-sde.webp"; // Asegurate de que esté en public o en assets
 
 export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!email || !password) {
+      setError("Por favor, ingrese ambos campos");
+      return;
+    }
+
+    setError("");
+    alert(`Correo: ${email}, Contraseña: ${password}`);
+  };
+
   return (
-    <>
-      <head>
-        <title>Login | REDEPSE</title>
-        <meta name="description" content="Inicio de sesión | REDEPSE" />
-      </head>
-
-      <div className={styles.container}>
-        {/* Sidebar */}
-        {/*         <aside className={styles.sidebar}>
-          <div className={styles.sidebarHeader}>
-            <h2>Registro de Escuelas</h2>
-            <h3>de Formación Deportiva</h3>
+    <div className={styles.container}>
+      <div className={styles.formWrapper}>
+        <div className={styles.logoContainer}>
+          <Image
+            src={logo}
+            alt="Logo SDE"
+            width={256}
+            height={256}
+            className={styles.logo}
+            priority
+          />
+        </div>
+        <h2 className={styles.title}>REDEPSE</h2>
+        {error && <div className={styles.error}>{error}</div>}
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <div className={styles.formGroup}>
+            <label htmlFor="email" className={styles.label}>
+              Correo electrónico
+            </label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className={styles.input}
+              required
+            />
           </div>
-          <nav>
-            <ul className={styles.navList}>
-              <li className={styles.navItem}>Datos Generales</li>
-              <li className={styles.navItem}>Habilitaciones</li>
-              <li className={`${styles.navItem} ${styles.active}`}>
-                Disciplinas
-              </li>
-              <li className={styles.navItem}>Entrenadores</li>
-              <li className={styles.navItem}>Alumnos</li>
-              <li className={styles.navItem}>Finalizar Registro</li>
-            </ul>
-          </nav>
-        </aside> */}
-
-        {/* Contenido principal */}
-        <main className={styles.mainContent}>
-          {/* Encabezado con gradiente */}
-          <header className={styles.header}>
-            <div className={styles.headerContent}>
-              <Image
-                src={logoSde}
-                alt="Logo Secretaría"
-                width={40}
-                height={40}
-              />
-              <div className={styles.headerText}>
-                <h1 className={styles.title}>
-                  Secretaría de Deportes de Santiago del Estero
-                </h1>
-                <h2 className={styles.subtitle}>REDEPSE</h2>
-              </div>
-              <nav className={styles.navLinks}>
-                <a href="/">Inicio</a>
-                <a href="/contacto">Contacto</a>
-              </nav>
-            </div>
-          </header>
-
-          {/* Instrucción */}
-          <section className={styles.instructionSection}>
-            <p>Por favor, ingrese su correo electrónico y contraseña.</p>
-          </section>
-
-          {/* Formulario */}
-          <section className={styles.formSection}>
-            <form className={styles.form}>
-              <div className={styles.formGroup}>
-                <label htmlFor="email">Correo electrónico</label>
-                <input id="email" type="email" className={styles.input} />
-              </div>
-              <div className={styles.formGroup}>
-                <label htmlFor="password">Contraseña</label>
-                <input id="password" type="password" className={styles.input} />
-              </div>
-            </form>
-          </section>
-
-          {/* Botón "Siguiente" */}
-          <section className={styles.nextSection}>
-            <button className={styles.nextButton}>Iniciar sesión</button>
-          </section>
-        </main>
+          <div className={styles.formGroup}>
+            <label htmlFor="password" className={styles.label}>
+              Contraseña
+            </label>
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className={styles.input}
+              required
+            />
+          </div>
+          <button type="submit" className={styles.button}>
+            Iniciar sesión
+          </button>
+        </form>
       </div>
-    </>
+    </div>
   );
 }

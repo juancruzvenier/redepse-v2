@@ -1,82 +1,125 @@
-// Import the necessary modules and components
+"use client"; // Indica que es un Client Component
+
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Sidebar } from "@/app/components/Sidebar";
 import styles from "./disciplina.module.css";
 
 export default function Disciplina() {
+  const [savedDisciplines, setSavedDisciplines] = useState([]);
+  const [showToast, setShowToast] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    setSavedDisciplines([...savedDisciplines, data]);
+    reset();
+    setShowToast(true);
+    setTimeout(() => setShowToast(false), 3000);
+  };
+
   return (
-    <>
-      <head>
-        <title>Disciplinas | REDEPSE</title>
-        <meta name="description" content="Página de Disciplinas en REDEPSE" />
-      </head>
+    <div className={styles.container}>
+      <Sidebar activeItem="Disciplinas" />
 
-      <div className={styles.container}>
-        {/* Sidebar */}
-        <aside className={styles.sidebar}>
-          <div className={styles.sidebarHeader}>
-            <h2>Registro de Escuelas</h2>
-            <h3>de Formación Deportiva</h3>
+      <main className={styles.mainContent}>
+        <header className={styles.header}>
+          <h1 className={styles.title}>Escuela Amigos Quimilí</h1>
+          <h2 className={styles.subtitle}>Disciplinas</h2>
+        </header>
+
+        <section className={styles.instructionSection}>
+          <p>
+            Por favor, agregue las disciplinas que se practican en la escuela.
+          </p>
+        </section>
+
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+          <div className={styles.formGroup}>
+            <label className={`${styles.label} ${styles.required}`}>
+              Disciplina
+            </label>
+            <select
+              {...register("discipline", { required: "Campo obligatorio" })}
+              className={`${styles.select} ${
+                errors.discipline ? styles.error : ""
+              }`}
+            >
+              <option id="placeholderr" value="" type="placeholder">
+                Seleccione una disciplina
+              </option>
+              <option value="Fútbol">Fútbol</option>
+              <option value="Básquet">Básquet</option>
+              <option value="Vóley">Vóley</option>
+            </select>
+            {errors.discipline && (
+              <span className={styles.errorMessage}>
+                {errors.discipline.message}
+              </span>
+            )}
           </div>
-          <nav>
-            <ul className={styles.navList}>
-              <li className={styles.navItem}>Datos Generales</li>
-              <li className={styles.navItem}>Habilitaciones</li>
-              <li className={`${styles.navItem} ${styles.active}`}>
-                Disciplinas
-              </li>
-              <li className={styles.navItem}>Entrenadores</li>
-              <li className={styles.navItem}>Alumnos</li>
-              <li className={styles.navItem}>Finalizar Registro</li>
+
+          <div className={styles.formGroup}>
+            <label className={`${styles.label} ${styles.required}`}>
+              Cantidad de canchas
+            </label>
+            <input
+              type="number"
+              min="1"
+              {...register("courts", {
+                valueAsNumber: true,
+                validate: (value) => value >= 0 || "Número inválido",
+              })}
+              className={`${styles.input} ${errors.courts ? styles.error : ""}`}
+            />
+            {errors.courts && (
+              <span className={styles.errorMessage}>
+                {errors.courts.message}
+              </span>
+            )}
+          </div>
+
+          <button
+            type="submit"
+            className={`${styles.button} ${styles.buttonPrimary}`}
+          >
+            💾 Guardar
+          </button>
+        </form>
+
+        {savedDisciplines.length > 0 && (
+          <section className={styles.savedSection}>
+            <h3>Disciplinas registradas:</h3>
+            <ul>
+              {savedDisciplines.map((item, index) => (
+                <li key={index}>
+                  <strong>{item.discipline}</strong> ({item.courts || 0}{" "}
+                  canchas)
+                </li>
+              ))}
             </ul>
-          </nav>
-        </aside>
-
-        {/* Contenido principal */}
-        <main className={styles.mainContent}>
-          {/* Encabezado con gradiente */}
-          <header className={styles.header}>
-            <h1 className={styles.title}>Escuela Amigos Quimilí</h1>
-            <h2 className={styles.subtitle}>Disciplinas</h2>
-          </header>
-
-          {/* Instrucción */}
-          <section className={styles.instructionSection}>
-            <p>
-              Por favor, agregue las disciplinas que se practican en la escuela.
-            </p>
           </section>
+        )}
 
-          {/* Formulario */}
-          <section className={styles.formSection}>
-            <form className={styles.form}>
-              <div className={styles.formGroup}>
-                <label htmlFor="disciplina">Disciplina</label>
-                <select className={styles.select}>
-                  <option value="sekec">Fútbol</option>
-                  <option value="sekec">Básquet</option>
-                  <option value="sekec">Vóley</option>
-                </select>
-              </div>
-              <div className={styles.formGroup}>
-                <label htmlFor="canchas">Cantidad de canchas</label>
-                <input
-                  id="canchas"
-                  type="number"
-                  placeholder="0"
-                  className={styles.input}
-                />
-              </div>
-              <button type="button" className={styles.saveButton}>
-                Guardar
-              </button>
-            </form>
-          </section>
+        <section className={styles.nextSection}>
+          <button
+            className={`${styles.button} ${styles.buttonSuccess}`}
+            disabled={savedDisciplines.length === 0}
+          >
+            Siguiente →
+          </button>
+        </section>
 
-          {/* Botón "Siguiente" */}
-          <section className={styles.nextSection}>
-            <button className={styles.nextButton}>Siguiente</button>
-          </section>
-        </main>
-      </div>
-    </>
+        {showToast && (
+          <div className={styles.toast}>
+            ✅ Disciplina guardada correctamente
+          </div>
+        )}
+      </main>
+    </div>
   );
 }

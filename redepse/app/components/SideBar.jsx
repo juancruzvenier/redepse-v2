@@ -1,75 +1,49 @@
 "use client";
-import React from "react";
+
 import Link from "next/link";
-import Image from "next/image";
+import { useRouter } from "next/navigation";
 import styles from "./Sidebar.module.css";
 
-const SideBar = () => {
+export const Sidebar = ({ activeItem }) => {
+  const router = useRouter();
+
+  const handleLogout = () => {
+    // Aquí podés limpiar auth del localStorage o cookies si más adelante usás eso
+    router.push("/login");
+  };
+
+  const menuItems = [
+    { icon: "📋", label: "Datos Generales", path: "/datos" },
+    { icon: "✅", label: "Habilitaciones", path: "/habilitaciones" },
+    { icon: "⚽", label: "Disciplinas", path: "/disciplinas" },
+    { icon: "👨‍🏫", label: "Entrenadores", path: "/entrenadores" },
+    { icon: "👥", label: "Alumnos", path: "/alumnos" },
+    { icon: "📤", label: "Finalizar Registro", path: "/finalizar" },
+  ];
+
   return (
-    <aside className={styles.sidebar}>
-      <div className={styles.logo}>
-        <Image
-          src="/images/favicon-sde.png"
-          alt="Escudo del Club"
-          width={100}
-          height={100}
-        />
-        <Image
-          src="/images/logo-sde.svg"
-          alt="Escudo del Club"
-          width={100}
-          height={100}
-        />
+    <aside className={styles.sidebar} aria-label="Menú de registro">
+      <div className={styles.sidebarHeader}>
+        <h2>Registro de Escuelas</h2>
+        <h3>de Formación Deportiva</h3>
       </div>
-
-      <h2
-        style={{
-          color: "white",
-          textAlign: "left",
-          backgroundColor: "transparent",
-        }}
-      >
-        REGRISTO DE ESCUELAS DE FORMACION DEPORTIVA
-      </h2>
-
-      <nav className={styles.nav}>
-        <Link href="/" className={`${styles["nav-item"]} ${styles.active}`}>
-          Datos Generales
-        </Link>
-        <Link href="/habilitaciones" className={styles["nav-item"]}>
-          Habilitaciones
-        </Link>
-        <Link href="/disciplinas" className={styles["nav-item"]}>
-          Disciplinas
-        </Link>
-        <Link href="/canchas" className={`${styles["nav-item"]}`}>
-          Canchas
-        </Link>
-        <Link href="/propiedad-escuela" className={`${styles["nav-item"]}`}>
-          Propiedad de Escuela
-        </Link>
-        <Link href="/personal-escuela" className={`${styles["nav-item"]}`}>
-          Personal de Escuela
-        </Link>
-        <Link href="/datos-entrenadores" className={styles["nav-item"]}>
-          Datos Entrenadores
-        </Link>
-        <Link href="/datos-alumnos" className={styles["nav-item"]}>
-          Datos Alumnos
-        </Link>
-        <Link href="/pages/" className={styles["nav-item"]}>
-          Finalizar Registro
-        </Link>
+      <nav>
+        <ul className={styles.navList}>
+          {menuItems.map((item) => (
+            <li
+              key={item.label}
+              className={`${styles.navItem} ${
+                activeItem === item.label ? styles.active : ""
+              }`}
+            >
+              <span>{item.icon}</span> {item.label}
+            </li>
+          ))}
+        </ul>
       </nav>
-
-      <button
-        className={styles["logout-btn"]}
-        onClick={() => (window.location.href = "/app/login")}
-      >
-        Cerrar Sesión
+      <button className={styles.logoutButton} onClick={handleLogout}>
+        Cerrar sesión
       </button>
     </aside>
   );
 };
-
-export default SideBar;

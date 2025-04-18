@@ -1,175 +1,240 @@
-/* Disciplina.module.css */
+/* Variables */
+:root {
+  --primary-blue: #0070f3;
+  --primary-green: #28a745;
+  --primary-red: #d21f3c;
+  --primary-dark: #2f2f2f;
+  --border-color: #dcdcdc;
+  --background-light: #fafafa;
+  --background-gray: #f5f5f5;
+  --error-color: #dc3545;
+}
 
-/* Contenedor principal que abarca sidebar y contenido */
+/* Base */
 .container {
   display: flex;
-  width: 100%;
   min-height: 100vh;
-  background-color: #f5f5f5; /* Fondo general */
-  font-family: sans-serif;
+  background-color: var(--background-gray);
+  font-family: "Segoe UI", sans-serif;
 }
 
-/* SIDEBAR */
+/* Sidebar (reutilizable) */
 .sidebar {
-  width: 260px;
-  background-color: #ffffff;
-  border-right: 1px solid #dcdcdc;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding: 1rem;
-}
-
-/* Título principal del sidebar */
-.sidebarHeader {
-  margin-bottom: 2rem;
+  width: 280px;
+  background: white;
+  border-right: 1px solid var(--border-color);
+  padding: 1.5rem;
+  position: sticky;
+  top: 0;
+  height: 100vh;
 }
 
 .sidebarHeader h2 {
-  font-size: 1.1rem;
-  margin: 0;
-  color: #2f2f2f;
+  font-size: 1.2rem;
+  color: var(--primary-dark);
+  margin-bottom: 0.25rem;
 }
 
 .sidebarHeader h3 {
-  font-size: 0.9rem;
-  margin: 0;
+  font-size: 0.95rem;
   color: #555;
 }
 
-/* Lista de navegación dentro del sidebar */
 .navList {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+  margin-top: 2rem;
 }
 
 .navItem {
-  padding: 0.5rem 0;
-  cursor: pointer;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
   color: #555;
-  transition: color 0.3s ease;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent;
+  margin-bottom: 0.5rem;
 }
 
 .navItem:hover {
-  color: #000;
+  color: var(--primary-dark);
+  background-color: #f8f9fa;
 }
 
 .active {
-  font-weight: bold;
-  color: #000;
+  color: var(--primary-blue);
+  font-weight: 600;
+  border-left-color: var(--primary-blue);
+  background-color: #f0f7ff;
 }
 
-/* CONTENIDO PRINCIPAL */
+/* Main Content */
 .mainContent {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  background-color: #fafafa;
+  padding: 2rem;
+  background-color: var(--background-light);
 }
 
-/* Encabezado con gradiente */
 .header {
-  background: linear-gradient(to right, #0e6ac4, #d21f3c);
-  padding: 1.2rem;
-  color: #ffffff;
+  background: linear-gradient(to right, #0e6ac4, var(--primary-red));
+  padding: 1.5rem 2rem;
+  color: white;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
 }
 
-/* Título y subtítulo del encabezado */
 .title {
-  margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
+  margin-bottom: 0.25rem;
 }
 
 .subtitle {
-  margin: 0.2rem 0 0 0;
-  font-size: 1.2rem;
-  color: #f2f2f2;
+  font-size: 1.25rem;
+  opacity: 0.9;
+  font-weight: 500;
 }
 
-/* Sección de instrucción */
-.instructionSection {
-  padding: 1rem 1.5rem;
-  color: #333;
-}
-
-/* Formulario */
-.formSection {
-  padding: 1rem 1.5rem;
-}
-
-/* Ajusta el ancho máximo para que no quede muy grande el formulario */
+/* Form */
 .form {
   max-width: 500px;
-  background-color: #fff;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+  background: white;
+  padding: 1.75rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
 }
 
 .formGroup {
-  margin-bottom: 1rem;
-  display: flex;
-  flex-direction: column;
+  margin-bottom: 1.25rem;
 }
 
-/* Etiqueta e input */
-.formGroup label {
+.instructionSection {
+  color: black;
+}
+
+.label {
   font-weight: 600;
   margin-bottom: 0.5rem;
-  color: #333;
+  display: block;
+  color: var(--primary-dark);
 }
 
+.required::after {
+  content: " *";
+  color: var(--primary-red);
+}
+
+.input,
 .select {
   background-color: white;
   color: black;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  cursor: pointer;
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border 0.3s ease;
 }
 
-.input {
-  background-color: white;
-  color: black;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.input:focus,
+.select:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.2);
 }
 
-/* Botón "Guardar" */
-.saveButton {
-  margin-top: 1rem;
-  padding: 0.7rem 1.5rem;
-  background-color: #0070f3; /* color principal (azul) */
-  color: #fff;
+.error {
+  border-color: var(--error-color);
+}
+
+.errorMessage {
+  color: var(--error-color);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+/* Buttons */
+.button {
+  padding: 0.75rem 1.5rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.saveButton:hover {
+.buttonPrimary {
+  background-color: var(--primary-blue);
+  color: white;
+}
+
+.buttonPrimary:hover {
   background-color: #005bb5;
 }
 
-/* Botón "Siguiente" (ubicado fuera del form) */
-.nextSection {
-  display: flex;
-  justify-content: flex-end;
-  padding: 1rem 1.5rem;
+.buttonSuccess {
+  background-color: var(--primary-green);
+  color: white;
 }
 
-.nextButton {
-  padding: 0.7rem 1.5rem;
-  background-color: #28a745; /* color verde */
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.nextButton:hover {
+.buttonSuccess:hover {
   background-color: #218838;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Saved Disciplines */
+.savedSection {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.savedSection h3 {
+  margin-top: 0;
+  color: var(--primary-dark);
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.5rem;
+}
+
+.savedSection ul {
+  padding-left: 1.25rem;
+}
+
+.savedSection li {
+  margin: 0.75rem 0;
+  color: #555;
+}
+
+/* Toast Notification */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: var(--primary-green);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
