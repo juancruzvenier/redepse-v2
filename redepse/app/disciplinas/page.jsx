@@ -3,7 +3,7 @@ import css from './about-us.css';
 
 const page = () => {
   return (
-    <div>ABOUT US</div>
+    <div>Nashe</div>
   )
 }
 

@@ -1,40 +1,56 @@
 'use client';
-import React from 'react';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from './Sidebar.module.css';
 
-
 const SideBar = () => {
-    return (
-<aside className={styles.sidebar}>
-  <div className={styles.logo}>
-  <Image src="/images/favicon-sde.png" alt="Escudo del Club" width={100} height={100} />
-  <Image src="/images/logo-sde.svg" alt="Escudo del Club" width={100} height={100} />
-  </div>
+  const pathname = usePathname();
 
-  <h2 style={{ color: 'white', textAlign: 'left', backgroundColor: 'transparent' }}>
-    REGRISTO DE ESCUELAS DE FORMACION DEPORTIVA
-  </h2>
+  const menuItems = [
+    { href: '/datos-generales', label: 'Datos Generales' }, // Cambiado de '/' a '/datos-generales'
+    { href: '/habilitaciones', label: 'Habilitaciones' },
+    { href: '/disciplinas', label: 'Disciplinas' },
+    { href: '/canchas', label: 'Canchas' },
+    { href: '/propiedad-escuela', label: 'Propiedad de Escuela' },
+    { href: '/personal-escuela', label: 'Personal de Escuela' },
+    { href: '/datos-entrenadores', label: 'Datos Entrenadores' },
+    { href: '/datos-alumnos', label: 'Datos Alumnos' },
+    { href: '/finalizar-registro', label: 'Finalizar Registro' }, // Corregido "Registro"
+  ];
 
-  <nav className={styles.nav}>
-    <Link href="/" className={`${styles['nav-item']} ${styles.active}`}>Datos Generales</Link>
-    <Link href="/habilitaciones" className={styles['nav-item']}>Habilitaciones</Link>
-    <Link href="/disciplinas" className={styles['nav-item']}>Disciplinas</Link>
-    <Link href="/canchas"className={`${styles['nav-item']}`}>Canchas</Link>
-    <Link href="/propiedad-escuela"className={`${styles['nav-item']}`}>Propiedad de Escuela</Link>
-    <Link href="/personal-escuela"className={`${styles['nav-item']}`}>Personal de Escuela</Link>
-    <Link href="/datos-entrenadores" className={styles['nav-item']}>Datos Entrenadores</Link>
-    <Link href="/datos-alumnos" className={styles['nav-item']}>Datos Alumnos</Link>
-    <Link href="/pages/" className={styles['nav-item']}>Finalizar Registro</Link>
-  </nav>
+  return (
+    <aside className={styles.sidebar}>
+      <div className={styles.logo}>
+        <Image src="/images/favicon-sde.png" alt="Escudo del Club" width={100} height={100} />
+        <Image src="/images/logo-sde.svg" alt="Logo" width={100} height={100} />
+      </div>
 
-  <button className={styles['logout-btn']} onClick={() => window.location.href = '/pages/login'}>
-    Cerrar Sesión
-  </button>
-</aside>
+      <h2>REGISTRO DE ESCUELAS DE FORMACIÓN DEPORTIVA</h2>
 
-    );
+      <nav className={styles.nav}>
+        {menuItems.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className={`${styles['nav-item']} ${
+              pathname === item.href || 
+              (item.href !== '/' && pathname.startsWith(item.href)) ? styles.active : ''
+            }`}
+          >
+            {item.label}
+          </Link>
+        ))}
+      </nav>
+
+      <button 
+        className={styles['logout-btn']}
+        onClick={() => window.location.href = '/login'}
+      >
+        Cerrar Sesión
+      </button>
+    </aside>
+  );
 };
 
 export default SideBar;
