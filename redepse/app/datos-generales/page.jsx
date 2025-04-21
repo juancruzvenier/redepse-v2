@@ -1,71 +1,162 @@
-import SideBar from '../components/SideBar.jsx'; // Si components está al mismo nivel que app
-import styles from './page.module.css';
+"use client"; // Indica que es un Client Component
+
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Sidebar } from "@/app/components/Sidebar";
+import styles from "./datosgenerales.module.css";
 
 export default function DatosGenerales() {
+  const [datosGenerales, setDatosGenerales] = useState([]);
+  const [showToast, setShowToast] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+
   return (
     <div className={styles.container}>
-      <SideBar />
-      
+      <Sidebar activeItem="Datos generales" />
+
       <main className={styles.mainContent}>
-        <h1 className={styles.schoolTitle}>Escuela Amigos Quimili</h1>
-        <h2 className={styles.sectionTitle}>Datos Generales</h2>
-        
-        <form className={styles.form}>
+        <header className={styles.header}>
+          <h1 className={styles.title}>Escuela Amigos Quimilí</h1>
+          <h2 className={styles.subtitle}>Datos generales</h2>
+        </header>
+
+        <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formRow}>
             <div className={styles.formGroup}>
-              <label>Nombre de la Escuela</label>
-              <input type="text" placeholder="Ej: Escuela Amigos Quimili" />
+              <label className={`${styles.label} ${styles.required}`}>
+                Nombre de la escuela
+              </label>
+              <input
+                type="text"
+                className={`${styles.input} ${
+                  errors.nombreEscuela ? styles.error : ""
+                }`}
+              />
             </div>
-            
+
             <div className={styles.formGroup}>
-              <label>Correo Electrónico</label>
-              <input type="email" placeholder="ejemplo@escuela.com" />
+              <label className={`${styles.label} ${styles.required}`}>
+                Localidad
+              </label>
+              <input
+                type="text"
+                className={`${styles.input} ${
+                  errors.localidad ? styles.error : ""
+                }`}
+              />
             </div>
-            
-            <div className={styles.formGroup}>
-              <label>Nombre del responsable</label>
-              <input type="text" placeholder="Nombre" />
+
+            <div className={styles.formRow}>
+              <div className={styles.formGroup}>
+                <label className={`${styles.label} ${styles.required}`}>
+                  Dirección de la escuela
+                </label>
+                <input
+                  type="text"
+                  className={`${styles.input} ${
+                    errors.direccion ? styles.error : ""
+                  }`}
+                />
+              </div>
+
+              <div className={styles.formGroup}>
+                <label className={`${styles.label} ${styles.required}`}>
+                  Fecha de fundación
+                </label>
+                <input
+                  type="date"
+                  placeholder="dd/mm/aaaa"
+                  className={`${styles.input} ${
+                    errors.fechaFundacion ? styles.error : ""
+                  }`}
+                />
+              </div>
+
+              <div className={styles.formGroup}>
+                <label className={`${styles.label} ${styles.required}`}>
+                  Correo electrónico
+                </label>
+                <input
+                  type="email"
+                  className={`${styles.input} ${
+                    errors.email ? styles.error : ""
+                  }`}
+                />
+              </div>
+
+              <div className={styles.formRow}>
+                <div className={styles.formGroup}>
+                  <label className={`${styles.label} ${styles.required}`}>
+                    Teléfono de contacto
+                  </label>
+                  <input
+                    type="tel"
+                    placeholder="Código de área (sin 0) + Número de teléfono"
+                    className={`${styles.input} ${
+                      errors.telefono ? styles.error : ""
+                    }`}
+                  />
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label className={`${styles.label} ${styles.required}`}>
+                    DNI del responsable
+                  </label>
+                  <input
+                    type="text"
+                    {...register("dni", {
+                      required: "El DNI es obligatorio",
+                      pattern: {
+                        value: /^[0-9]{8,10}$/,
+                        message: "Ingrese un DNI válido (8-10 dígitos)",
+                      },
+                    })}
+                    placeholder="Número de DNI (sin puntos ni guiones)"
+                    className={`${styles.input} ${
+                      errors.dni ? styles.error : ""
+                    }`}
+                  />
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label className={`${styles.label} ${styles.required}`}>
+                    Nombre del responsable
+                  </label>
+                  <input
+                    type="text"
+                    className={`${styles.input} ${
+                      errors.nombreResponsable ? styles.error : ""
+                    }`}
+                  />
+                </div>
+              </div>
+
+              <div className={styles.formGroup}>
+                <label className={`${styles.label} ${styles.required}`}>
+                  Apellido del responsable
+                </label>
+                <input
+                  type="text"
+                  className={`${styles.input} ${
+                    errors.apellidoResponsable ? styles.error : ""
+                  }`}
+                />
+              </div>
             </div>
           </div>
-          
-          <div className={styles.formRow}>
-            <div className={styles.formGroup}>
-              <label>Dirección de la Escuela</label>
-              <input type="text" placeholder="Dirección completa" />
-            </div>
-            
-            <div className={styles.formGroup}>
-              <label>Fecha de fundación</label>
-              <input type="date" placeholder="dd/mm/aaaa" />
-            </div>
-            
-            <div className={styles.formGroup}>
-              <label>Apellido del responsable</label>
-              <input type="text" placeholder="Apellido" />
-            </div>
-          </div>
-          
-          <div className={styles.formRow}>
-            <div className={styles.formGroup}>
-              <label>Teléfono de contacto</label>
-              <input type="tel" placeholder="+54 9 XXX XXX XXXX" />
-            </div>
-            
-            <div className={styles.formGroup}>
-              <label>Municipio</label>
-              <input type="text" placeholder="Municipio/Localidad" />
-            </div>
-            
-            <div className={styles.formGroup}>
-              <label>DNI del responsable</label>
-              <input type="text" placeholder="Número de DNI" />
-            </div>
-          </div>
-          
-          <button type="submit" className={styles.submitButton}>
-            Siguiente
-          </button>
         </form>
+
+        <section className={styles.nextSection}>
+          <button className={`${styles.button} ${styles.buttonSuccess}`}>
+            Siguiente →
+          </button>
+        </section>
       </main>
     </div>
   );

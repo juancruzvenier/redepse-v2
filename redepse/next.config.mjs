@@ -1,10 +1,4 @@
-// next.config.mjs
-
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  turbopack: {
-    turbopack: false, // Desactivar TurboPack
-  },
-};
+const nextConfig = {};
 
 export default nextConfig;

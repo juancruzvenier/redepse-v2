@@ -16,7 +16,7 @@ export const metadata = {
   title: "REDEPSE",
   description: "Sistema de autogestión de escuelas deportivas",
   icons: {
-    icon: "/favicon-sde.webp", // Asegurate de que esté en la carpeta /public
+    icon: "@/app/public/favicon-sde.png", // Asegurate de que esté en la carpeta /public
   },
 };
 

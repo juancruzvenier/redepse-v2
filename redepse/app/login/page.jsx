@@ -3,7 +3,7 @@
 import { useState } from "react";
 import styles from "./login.module.css";
 import Image from "next/image";
-import logo from "@/public/favicon-sde.webp"; // Asegurate de que esté en public o en assets
+import logo from "@/public/favicon-sde.png"; // Asegurate de que esté en public o en assets
 
 export default function Login() {
   const [email, setEmail] = useState("");

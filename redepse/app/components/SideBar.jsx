@@ -13,12 +13,12 @@ export const Sidebar = ({ activeItem }) => {
   };
 
   const menuItems = [
-    { icon: "📋", label: "Datos Generales", path: "/datos" },
-    { icon: "✅", label: "Habilitaciones", path: "/habilitaciones" },
-    { icon: "⚽", label: "Disciplinas", path: "/disciplinas" },
-    { icon: "👨‍🏫", label: "Entrenadores", path: "/entrenadores" },
-    { icon: "👥", label: "Alumnos", path: "/alumnos" },
-    { icon: "📤", label: "Finalizar Registro", path: "/finalizar" },
+    { icon: "📋", href: "/datos-generales", label: "Datos generales" },
+    { icon: "✅", href: "/habilitaciones", label: "Habilitaciones" },
+    { icon: "⚽", href: "/disciplinas", label: "Disciplinas" },
+    { icon: "👨‍🏫", href: "/datos-entrenadores", label: "Entrenadores" },
+    { icon: "👥", href: "/datos-alumnos", label: "Alumnos" },
+    { icon: "📤", href: "/finalizar-registro", label: "Finalizar Registro" },
   ];
 
   return (
@@ -30,14 +30,16 @@ export const Sidebar = ({ activeItem }) => {
       <nav>
         <ul className={styles.navList}>
           {menuItems.map((item) => (
-            <li
-              key={item.label}
-              className={`${styles.navItem} ${
-                activeItem === item.label ? styles.active : ""
-              }`}
-            >
-              <span>{item.icon}</span> {item.label}
-            </li>
+            <Link key={item.label} href={item.href}>
+              <li
+                key={item.label}
+                className={`${styles.navItem} ${
+                  activeItem === item.label ? styles.active : ""
+                }`}
+              >
+                <span>{item.icon}</span> {item.label}
+              </li>
+            </Link>
           ))}
         </ul>
       </nav>
