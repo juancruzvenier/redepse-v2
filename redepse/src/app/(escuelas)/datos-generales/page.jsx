@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Sidebar } from "@/app/components/Sidebar";
+import { Sidebar } from "@/src/app/components/Sidebar";
 import styles from "./datosgenerales.module.css";
 
 export default function DatosGenerales() {

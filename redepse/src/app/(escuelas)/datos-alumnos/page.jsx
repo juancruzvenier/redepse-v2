@@ -1,12 +1,14 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Sidebar } from "@/app/components/Sidebar";
+import { Sidebar } from "@/src/app/components/Sidebar";
 import styles from "./datosalumnos.module.css";
 
 export default function RegistroAlumnos() {
   const [alumnos, setAlumnos] = useState([]);
   const [showToast, setShowToast] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const {
     register,
@@ -19,20 +21,53 @@ export default function RegistroAlumnos() {
     },
   });
 
-  const onSubmit = (data) => {
-    const nuevoAlumno = {
-      id: Date.now(),
-      dni: data.dni.trim(),
-      nombre: data.nombre.trim(),
-      apellido: data.apellido.trim(),
-      fechaNacimiento: data.fechaNacimiento || "No especificada",
-      disciplina: data.disciplina || "No especificada",
+  // Obtener alumnos al cargar el componente
+  useEffect(() => {
+    const fetchAlumnos = async () => {
+      try {
+        const response = await fetch("/api/alumnos");
+        if (!response.ok) throw new Error("Error al obtener alumnos");
+        const data = await response.json();
+        setAlumnos(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
     };
+    fetchAlumnos();
+  }, []);
 
-    setAlumnos([...alumnos, nuevoAlumno]);
-    reset();
-    setShowToast(true);
-    setTimeout(() => setShowToast(false), 3000);
+  const onSubmit = async (data) => {
+    try {
+      const response = await fetch("/api/alumnos", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          dni_alumno: data.dni.trim(),
+          nombre: data.nombre.trim(),
+          apellido: data.apellido.trim(),
+          fecha_nac: data.fechaNacimiento || null,
+          estado: "Activo",
+          disciplina: data.disciplina || null,
+        }),
+      });
+
+      if (!response.ok) throw new Error("Error al registrar alumno");
+
+      // Refrescar la lista de alumnos después de agregar uno nuevo
+      const refreshResponse = await fetch("/api/alumnos");
+      const refreshedData = await refreshResponse.json();
+      setAlumnos(refreshedData);
+
+      reset();
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 3000);
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   return (
@@ -44,6 +79,8 @@ export default function RegistroAlumnos() {
           <h1 className={styles.title}>Escuela Amigos Quimilí</h1>
           <h2 className={styles.subtitle}>Alumnos</h2>
         </header>
+
+        {error && <div className={styles.errorAlert}>Error: {error}</div>}
 
         <div className={styles.registrationContainer}>
           <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
@@ -146,12 +183,11 @@ export default function RegistroAlumnos() {
                 </option>
                 <option value="Fútbol">Fútbol</option>
                 <option value="Básquet">Básquet</option>
-                <option value="Vóley">Vóley</option>
                 <option value="Natación">Natación</option>
               </select>
-              {errors.discipline && (
+              {errors.disciplina && (
                 <span className={styles.errorMessage}>
-                  {errors.discipline.message}
+                  {errors.disciplina.message}
                 </span>
               )}
             </div>
@@ -166,7 +202,9 @@ export default function RegistroAlumnos() {
 
           <div className={styles.studentsList}>
             <h3>Alumnos registrados ({alumnos.length})</h3>
-            {alumnos.length > 0 ? (
+            {isLoading ? (
+              <p className={styles.loading}>Cargando alumnos...</p>
+            ) : alumnos.length > 0 ? (
               <div className={styles.tableWrapper}>
                 <table className={styles.table}>
                   <thead>
@@ -180,12 +218,12 @@ export default function RegistroAlumnos() {
                   </thead>
                   <tbody>
                     {alumnos.map((alumno) => (
-                      <tr key={alumno.id}>
-                        <td>{alumno.dni}</td>
+                      <tr key={alumno.dni_alumno}>
+                        <td>{alumno.dni_alumno}</td>
                         <td>{alumno.nombre}</td>
                         <td>{alumno.apellido}</td>
-                        <td>{alumno.fechaNacimiento}</td>
-                        <td>{alumno.disciplina}</td>
+                        <td>{alumno.fecha_nac || "No especificada"}</td>
+                        <td>{alumno.disciplina || "No especificada"}</td>
                       </tr>
                     ))}
                   </tbody>
