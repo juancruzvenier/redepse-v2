@@ -12,13 +12,17 @@ export async function GET() {
         a.apellido, 
         a.fecha_nac,
         a.estado,
+        a.domicilio,
+        a.dni_tutor,
+        a.id_periodo,
         d.disciplina, 
         e.nombre_esc AS escuela
       FROM alumno a
-      LEFT JOIN alum_dis ad ON a.dni_alumno = ad.dni_alumno
-      LEFT JOIN disciplina d ON ad.id_disciplina = d.id_disciplina
+      LEFT JOIN alu_disc_esc_per adep ON a.dni_alumno = adep.dni_alumno
+      LEFT JOIN disciplina d ON adep.id_disciplina = d.id_disciplina
       LEFT JOIN inscripcion i ON a.dni_alumno = i.dni_alumno
       LEFT JOIN escuela e ON i.id_esc = e.id_esc
+      LEFT JOIN periodo p ON adep.id_periodo = p.id_periodo
       WHERE a.estado = 'Activo'
     `);
 
@@ -42,8 +46,17 @@ export async function GET() {
 // POST - Crear un nuevo alumno
 export async function POST(request) {
   try {
-    const { dni_alumno, nombre, apellido, fecha_nac, disciplina } =
-      await request.json();
+    const {
+      dni_alumno,
+      nombre,
+      apellido,
+      fecha_nac,
+      disciplina,
+      domicilio,
+      dni_tutor,
+      periodo,
+      estado,
+    } = await request.json();
 
     // Validación básica
     if (!dni_alumno || !nombre || !apellido) {
@@ -56,9 +69,9 @@ export async function POST(request) {
     // Insertar alumno
     await pool.query(
       `INSERT INTO alumno 
-       (dni_alumno, nombre, apellido, fecha_nac, estado) 
-       VALUES (?, ?, ?, ?, 'Activo')`,
-      [dni_alumno, nombre, apellido, fecha_nac || null]
+       (dni_alumno, nombre, apellido, fecha_nac, domicilio, dni_tutor, id_periodo, estado) 
+       VALUES (?, ?, ?, ?, ?, ?, ?, 'Activo')`,
+      [dni_alumno, nombre, apellido, fecha_nac, domicilio, dni_tutor, periodo]
     );
 
     // Asignar disciplina si existe
@@ -69,8 +82,8 @@ export async function POST(request) {
       );
       if (dis.length > 0) {
         await pool.query(
-          "INSERT INTO alum_dis (dni_alumno, id_disciplina) VALUES (?, ?)",
-          [dni_alumno, dis[0].id_disciplina]
+          "INSERT INTO alum_disc_esc_per (dni_alumno, id_disciplina, escuela, periodo) VALUES (?, ?, ?, ?)",
+          [dni_alumno, dis[0].id_disciplina, escuela, periodo]
         );
       }
     }

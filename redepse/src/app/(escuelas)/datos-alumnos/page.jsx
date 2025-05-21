@@ -17,7 +17,7 @@ export default function RegistroAlumnos() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      disciplina: "",
+      periodo: "",
     },
   });
 
@@ -52,6 +52,10 @@ export default function RegistroAlumnos() {
           fecha_nac: data.fechaNacimiento || null,
           estado: "Activo",
           disciplina: data.disciplina || null,
+          escuela: data.escuela || null,
+          domicilio: data.domicilio.trim(),
+          dni_tutor: data.dni_tutor.trim(),
+          periodo: data.periodo || null,
         }),
       });
 
@@ -175,7 +179,7 @@ export default function RegistroAlumnos() {
               <select
                 {...register("disciplina", { required: "Campo obligatorio" })}
                 className={`${styles.select} ${
-                  errors.disciplina ? styles.error : ""
+                  errors.periodo ? styles.error : ""
                 }`}
               >
                 <option value="" disabled hidden>
@@ -185,9 +189,80 @@ export default function RegistroAlumnos() {
                 <option value="Básquet">Básquet</option>
                 <option value="Natación">Natación</option>
               </select>
-              {errors.disciplina && (
+              {errors.periodo && (
                 <span className={styles.errorMessage}>
-                  {errors.disciplina.message}
+                  {errors.periodo.message}
+                </span>
+              )}
+            </div>
+
+            <div className={styles.formGroup}>
+              <label className={`${styles.label} ${styles.required}`}>
+                Domicilio
+              </label>
+              <input
+                type="text"
+                {...register("domicilio", {
+                  required: "El domicilio es obligatorio",
+                  pattern: {
+                    value: /^[A-Za-zÁ-ú\s]{2,}$/,
+                    message: "Ingrese un domicilio válido (mínimo 2 letras)",
+                  },
+                })}
+                className={`${styles.input} ${
+                  errors.domicilio ? styles.error : ""
+                }`}
+              />
+              {errors.domicilio && (
+                <span className={styles.errorMessage}>
+                  {errors.domicilio.message}
+                </span>
+              )}
+            </div>
+
+            <div className={styles.formGroup}>
+              <label className={`${styles.label} ${styles.required}`}>
+                Periodo
+              </label>
+              <select
+                {...register("periodo", { required: "Campo obligatorio" })}
+                className={`${styles.select} ${
+                  errors.periodo ? styles.error : ""
+                }`}
+              >
+                <option value="" disabled hidden>
+                  Seleccione un periodo
+                </option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+              </select>
+              {errors.periodo && (
+                <span className={styles.errorMessage}>
+                  {errors.periodo.message}
+                </span>
+              )}
+            </div>
+
+            <div className={styles.formGroup}>
+              <label className={`${styles.label} ${styles.required}`}>
+                DNI del tutor
+              </label>
+              <input
+                type="text"
+                {...register("dni_tutor", {
+                  required: "El DNI del tutor es obligatorio",
+                  pattern: {
+                    value: /^[0-9]{8,10}$/,
+                    message: "Ingrese un DNI válido (8-10 dígitos)",
+                  },
+                })}
+                className={`${styles.input} ${
+                  errors.dni_tutor ? styles.error : ""
+                }`}
+              />
+              {errors.dni_tutor && (
+                <span className={styles.errorMessage}>
+                  {errors.dni_tutor.message}
                 </span>
               )}
             </div>
@@ -212,8 +287,10 @@ export default function RegistroAlumnos() {
                       <th>DNI</th>
                       <th>Nombre</th>
                       <th>Apellido</th>
-                      <th>Fecha Nacimiento</th>
+                      <th>Fecha de nacimiento</th>
                       <th>Disciplina</th>
+                      <th>Domicilio</th>
+                      <th>Periodo</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -222,8 +299,10 @@ export default function RegistroAlumnos() {
                         <td>{alumno.dni_alumno}</td>
                         <td>{alumno.nombre}</td>
                         <td>{alumno.apellido}</td>
-                        <td>{alumno.fecha_nac || "No especificada"}</td>
-                        <td>{alumno.disciplina || "No especificada"}</td>
+                        <td>{alumno.fecha_nac}</td>
+                        <td>{alumno.disciplina}</td>
+                        <td>{alumno.domicilio}</td>
+                        <td>{alumno.id_periodo}</td>
                       </tr>
                     ))}
                   </tbody>
