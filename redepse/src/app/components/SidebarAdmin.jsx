@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import styles from "./Sidebar.module.css";
 
-export const Sidebar = ({ activeItem }) => {
+export const SidebarAdmin = ({ activeItem }) => {
   const router = useRouter();
 
   const handleLogout = () => {
@@ -13,12 +13,16 @@ export const Sidebar = ({ activeItem }) => {
   };
 
   const menuItems = [
-    { icon: "📋", href: "/datos-generales", label: "Datos generales" },
-    { icon: "✅", href: "/habilitaciones", label: "Habilitaciones" },
-    { icon: "⚽", href: "/disciplinas", label: "Disciplinas" },
-    { icon: "👨‍🏫", href: "/datos-entrenadores", label: "Entrenadores" },
-    { icon: "👥", href: "/datos-alumnos", label: "Alumnos" },
-    { icon: "📤", href: "/finalizar-registro", label: "Finalizar registro" },
+    {
+      icon: "✅",
+      href: "/escuelas-registradas",
+      label: "Escuelas registradas",
+    },
+    {
+      icon: "📋",
+      href: "/solicitudes-pendientes",
+      label: "Solicitudes pendientes",
+    },
   ];
 
   return (
