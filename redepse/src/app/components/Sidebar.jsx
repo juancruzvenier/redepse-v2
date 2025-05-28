@@ -18,6 +18,7 @@ export const Sidebar = ({ activeItem }) => {
     { icon: "⚽", href: "/disciplinas", label: "Disciplinas" },
     { icon: "👨‍🏫", href: "/datos-entrenadores", label: "Entrenadores" },
     { icon: "👥", href: "/datos-alumnos", label: "Alumnos" },
+    { icon: "🧑‍🤝‍🧑", href: "/tutores", label: "Tutores" },
     { icon: "📤", href: "/finalizar-registro", label: "Finalizar registro" },
   ];
 

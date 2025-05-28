@@ -20,7 +20,6 @@ export async function GET() {
       FROM alumno a
       LEFT JOIN alu_disc_esc_per adep ON a.dni_alumno = adep.dni_alumno
       LEFT JOIN disciplina d ON adep.id_disciplina = d.id_disciplina
-      LEFT JOIN inscripcion i ON a.dni_alumno = i.dni_alumno
       LEFT JOIN escuela e ON i.id_esc = e.id_esc
       LEFT JOIN periodo p ON adep.id_periodo = p.id_periodo
       WHERE a.estado = 'Activo'
