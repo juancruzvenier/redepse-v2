@@ -1,0 +1,120 @@
+/* Variables */
+:root {
+  --primary-blue: #0070f3;
+  --primary-green: #28a745;
+  --primary-red: #d21f3c;
+  --background-light: #fafafa;
+  --border-color: #dcdcdc;
+  --error-color: #dc3545;
+}
+
+/* Contenedor principal */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(
+    to right,
+    #0e6ac4,
+    var(--primary-red)
+  ); /* Gradiente de fondo */
+}
+
+/* Wrapper del formulario */
+.formWrapper {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+  color: #333;
+}
+
+/* Estilo para los mensajes de error */
+.error {
+  color: var(--error-color);
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+}
+
+/* Formulario */
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Grupos de formulario */
+.formGroup {
+  color: black;
+  margin-bottom: 1.25rem;
+  text-align: left;
+}
+
+/* Etiquetas */
+.label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  display: block;
+  color: var(--primary-dark);
+}
+
+/* Campos de entrada */
+.input {
+  background-color: white;
+  color: black;
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 1rem;
+  margin-top: 0.25rem;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.2);
+}
+
+/* Botón de envío */
+.button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  background-color: var(--primary-blue);
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.button:hover {
+  background-color: #005bb5;
+}
+
+.button:active {
+  background-color: #004080;
+}
+
+.logoContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  border-radius: 50%;
+}
