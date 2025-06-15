@@ -1,6 +1,6 @@
 "use client"; // Indica que es un Client Component
 
-import { useState } from "react";
+import { useState , useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Sidebar } from "@/src/app/components/Sidebar";
 import styles from "./datosgenerales.module.css";
@@ -8,13 +8,33 @@ import styles from "./datosgenerales.module.css";
 export default function DatosGenerales() {
   const [datosGenerales, setDatosGenerales] = useState([]);
   const [showToast, setShowToast] = useState(false);
-
+  const [usuario, setUsuario] = useState(null); // 👈 esta línea es la que faltaba
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm();
+
+  // 👇 Este es el useEffect que llama a /api/user
+  useEffect(() => {
+    async function fetchUser() {
+      try {
+        const res = await fetch("/api/user");
+        const data = await res.json();
+        if (res.ok) {
+          console.log("Usuario autenticado:", data.user);
+          setUsuario(data.user); // Guarda los datos del token
+        } else {
+          console.error("Error de autenticación:", data.error);
+        }
+      } catch (err) {
+        console.error("Fallo al obtener usuario:", err);
+      }
+    }
+
+    fetchUser();
+  }, []);  
 
   return (
     <div className={styles.container}>

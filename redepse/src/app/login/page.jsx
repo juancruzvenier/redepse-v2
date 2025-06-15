@@ -1,24 +1,55 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import styles from "./login.module.css";
 import Image from "next/image";
-import logo from "@/public/favicon-sde.png"; // Asegurate de que esté en public o en assets
+import logo from "@/public/favicon-sde.png";
 
 export default function Login() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!email || !password) {
       setError("Por favor, ingrese ambos campos");
       return;
     }
 
-    setError("");
-    alert(`Correo: ${email}, Contraseña: ${password}`);
+    try {
+      const res = await fetch("/api/login", {
+        method: "POST",
+        body: JSON.stringify({
+          usuario: email,
+          contraseña: password,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Error en el inicio de sesión");
+        return;
+      }
+
+      // Redirección por rol
+      if (data.tipo === "admin") {
+        router.push("/admin/dashboard");
+      } else if (data.tipo === "escuela") {
+        router.push("/datos-generales");
+      } else {
+        setError("Tipo de usuario no reconocido");
+      }
+    } catch (err) {
+      setError("Error del servidor. Intente más tarde.");
+    }
   };
 
   return (
