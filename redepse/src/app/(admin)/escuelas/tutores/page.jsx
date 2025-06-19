@@ -2,10 +2,10 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { SidebarAdmin } from "@/src/app/components/SidebarAdmin";
-import styles from "./alumnos.module.css";
+import styles from "./tutores.module.css";
 
-export default function Alumnos() {
-  const [alumnos, setAlumnos] = useState([]);
+export default function Tutores() {
+  const [tutores, setTutores] = useState([]);
   const [showToast, setShowToast] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -23,48 +23,43 @@ export default function Alumnos() {
 
   // Obtener alumnos al cargar el componente
   useEffect(() => {
-    const fetchAlumnos = async () => {
+    const fetchTutores = async () => {
       try {
-        const response = await fetch("/api/alumnos");
-        if (!response.ok) throw new Error("Error al obtener alumnos");
+        const response = await fetch("/api/tutores");
+        if (!response.ok) throw new Error("Error al obtener tutores");
         const data = await response.json();
-        setAlumnos(data);
+        setTutores(data);
       } catch (err) {
         setError(err.message);
       } finally {
         setIsLoading(false);
       }
     };
-    fetchAlumnos();
+    fetchTutores();
   }, []);
 
   const onSubmit = async (data) => {
     try {
-      const response = await fetch("/api/alumnos", {
+      const response = await fetch("/api/tutores", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          dni_alumno: data.dni.trim(),
+          dni_tutor: data.dni.trim(),
           nombre: data.nombre.trim(),
           apellido: data.apellido.trim(),
           fecha_nac: data.fechaNacimiento || null,
-          estado: "Activo",
-          disciplina: data.disciplina || null,
-          escuela: data.escuela || null,
           domicilio: data.domicilio.trim(),
-          dni_tutor: data.dni_tutor.trim(),
-          periodo: data.periodo || null,
         }),
       });
 
-      if (!response.ok) throw new Error("Error al registrar alumno");
+      if (!response.ok) throw new Error("Error al registrar tutor");
 
       // Refrescar la lista de alumnos después de agregar uno nuevo
-      const refreshResponse = await fetch("/api/alumnos");
+      const refreshResponse = await fetch("/api/tutores");
       const refreshedData = await refreshResponse.json();
-      setAlumnos(refreshedData);
+      setTutores(refreshedData);
 
       reset();
       setShowToast(true);
@@ -88,10 +83,10 @@ export default function Alumnos() {
 
         <div className={styles.registrationContainer}>
           <div className={styles.studentsList}>
-            <h3>Alumnos registrados ({alumnos.length})</h3>
+            <h3>Tutores registrados ({tutores.length})</h3>
             {isLoading ? (
-              <p className={styles.loading}>Cargando alumnos...</p>
-            ) : alumnos.length > 0 ? (
+              <p className={styles.loading}>Cargando tutores...</p>
+            ) : tutores.length > 0 ? (
               <div className={styles.tableWrapper}>
                 <table className={styles.table}>
                   <thead>
@@ -100,28 +95,30 @@ export default function Alumnos() {
                       <th>Nombre</th>
                       <th>Apellido</th>
                       <th>Fecha de nacimiento</th>
-                      <th>Disciplina</th>
+                      <th>Email</th>
+                      <th>Teléfono</th>
                       <th>Domicilio</th>
                       <th>Periodo</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {alumnos.map((alumno) => (
-                      <tr key={alumno.dni_alumno}>
-                        <td>{alumno.dni_alumno}</td>
-                        <td>{alumno.nombre}</td>
-                        <td>{alumno.apellido}</td>
-                        <td>{alumno.fecha_nac}</td>
-                        <td>{alumno.disciplina}</td>
-                        <td>{alumno.domicilio}</td>
-                        <td>{alumno.id_periodo}</td>
+                    {tutores.map((tutor) => (
+                      <tr key={tutor.dni_tutor}>
+                        <td>{tutor.dni_tutor}</td>
+                        <td>{tutor.nombre}</td>
+                        <td>{tutor.apellido}</td>
+                        <td>{tutor.fecha_nac}</td>
+                        <td>{tutor.email || "No especificado"}</td>
+                        <td>{tutor.telefono || "No especificado"}</td>
+                        <td>{tutor.domicilio}</td>
+                        <td>{tutor.id_periodo}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
             ) : (
-              <p className={styles.noData}>Aún no hay alumnos registrados</p>
+              <p className={styles.noData}>Aún no hay tutores registrados</p>
             )}
           </div>
         </div>

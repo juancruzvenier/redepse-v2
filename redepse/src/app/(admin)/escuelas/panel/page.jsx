@@ -108,6 +108,16 @@ export default function SolicitudesPendientes() {
                         </Link>
                       </section>
                     </td>
+                    <td>
+                      <section className={styles.nextSection}>
+                        <Link
+                          href="./tutores"
+                          className={`${styles.button} ${styles.buttonSuccess}`}
+                        >
+                          Tutores
+                        </Link>
+                      </section>
+                    </td>
                   </tr>
                 ))}
               </tbody>

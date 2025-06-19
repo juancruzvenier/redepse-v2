@@ -1,77 +1,63 @@
 import { NextResponse } from "next/server";
-import pool from "@/src/lib/db";
-/*import bcrypt from "bcrypt";*/
+import mysql from "mysql2/promise";
+import jwt from "jsonwebtoken";
 
 export async function POST(request) {
   try {
-    const { email, password } = await request.json();
+    const { usuario, contraseña } = await request.json();
+    console.log("Intentando login para:", usuario);
 
-    const [rows] = await pool.query(
-      "SELECT id_user, username, contraseña, rol FROM usuario WHERE email = ? AND contraseña = ?",
-      [email, password]
-    );
+    const connection = await mysql.createConnection({
+      host: process.env.DB_HOST, // <- asegurate de que esté definida
+      user: process.env.DB_USER,
+      database: process.env.DB_NAME,
+      password: process.env.DB_PASSWORD,
+    });
 
-    if (rows.length === 0) {
-      return NextResponse.json(
-        { message: "Correo o contraseña incorrectos" },
-        { status: 401 }
-      );
-    }
-
-    const user = rows[0];
-
-    /*   const passwordMatch = await bcrypt.compare(password, user.contraseña);
-
-    if (!passwordMatch) {
-      return NextResponse.json(
-        { message: "Correo o contraseña incorrectos" },
-        { status: 401 }
-      );
-    }*/
-
-    const { contraseña, ...userData } = user;
-
-    return NextResponse.json({ user: userData }, { status: 200 });
-  } catch (error) {
-    console.error("Error en login API:", error);
-    return NextResponse.json(
-      { error: "Error", details: error.message },
-      { message: "Error en el servidor" },
-      { status: 500 }
-    );
-  }
-}
-
-/*
-export async function POST(request) {
-  try {
-    const { email, password } = await request.json();
-
-    const connection = await mysql.createConnection(dbConfig);
+    console.log("Conexión a MySQL exitosa");
 
     const [rows] = await connection.execute(
-      "SELECT id_user, username, rol FROM usuario WHERE email = ? AND contraseña = ?",
-      [email, password]
+      "SELECT * FROM usuario WHERE email = ?",
+      [usuario]
     );
 
-    await connection.end();
-
-    if (rows.length === 0) {
+    if (!rows.length) {
+      console.log("Usuario no encontrado");
       return NextResponse.json(
-        { message: "Correo o contraseña incorrectos" },
+        { error: "Usuario no encontrado" },
         { status: 401 }
       );
     }
 
-    const user = rows[0];
+    if (rows[0].contraseña !== contraseña) {
+      console.log("Contraseña incorrecta");
+      return NextResponse.json(
+        { error: "Contraseña incorrecta" },
+        { status: 403 }
+      );
+    }
 
-    return NextResponse.json({ user }, { status: 200 });
-  } catch (error) {
-    console.error("Error en login API:", error);
-    return NextResponse.json(
-      { message: "Error en el servidor" },
-      { status: 500 }
+    console.log("Generando token...");
+    console.log("JWT_SECRET:", process.env.JWT_SECRET);
+
+    const token = jwt.sign(
+      { id: rows[0].id_user, tipo: rows[0].tipo },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
     );
+
+    console.log("Token generado con éxito");
+
+    return NextResponse.json(
+      { token, tipo: rows[0].tipo },
+      {
+        headers: {
+          "Set-Cookie": `token=${token}; HttpOnly; Path=/; Max-Age=86400`,
+        },
+      }
+    );
+  } catch (error) {
+    console.error("Error en login:", error);
+    return NextResponse.json({ error: "Error del servidor" }, { status: 500 });
   }
 }
-*/

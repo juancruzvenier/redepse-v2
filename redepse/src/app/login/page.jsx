@@ -1,18 +1,28 @@
 "use client";
 
+<<<<<<< HEAD
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation"; // <- IMPORTANTE
+=======
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+>>>>>>> 91d648ca5950fe6cc4b36a2bee5834b077d78d82
 import styles from "./login.module.css";
 import Image from "next/image";
-import logo from "@/public/favicon-sde.png"; // Asegurate de que esté en public o en assets
+import logo from "@/public/favicon-sde.png";
 
 export default function Login() {
+<<<<<<< HEAD
   const router = useRouter(); // <- USAMOS ESTO PARA REDIRECCIONAR
 
+=======
+  const router = useRouter();
+>>>>>>> 91d648ca5950fe6cc4b36a2bee5834b077d78d82
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+<<<<<<< HEAD
   const handleSubmit = async (data) => {
     data.preventDefault();
 
@@ -59,14 +69,46 @@ export default function Login() {
 
   /*
   const handleSubmit = (e) => {
+=======
+  const handleSubmit = async (e) => {
+>>>>>>> 91d648ca5950fe6cc4b36a2bee5834b077d78d82
     e.preventDefault();
+
     if (!email || !password) {
       setError("Por favor, ingrese ambos campos");
       return;
     }
 
-    setError("");
-    alert(`Correo: ${email}, Contraseña: ${password}`);
+    try {
+      const res = await fetch("/api/login", {
+        method: "POST",
+        body: JSON.stringify({
+          usuario: email,
+          contraseña: password,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Error en el inicio de sesión");
+        return;
+      }
+
+      // Redirección por rol
+      if (data.tipo === "admin") {
+        router.push("/admin/dashboard");
+      } else if (data.tipo === "escuela") {
+        router.push("/datos-generales");
+      } else {
+        setError("Tipo de usuario no reconocido");
+      }
+    } catch (err) {
+      setError("Error del servidor. Intente más tarde.");
+    }
   };
 */
   return (

@@ -1,0 +1,95 @@
+.container {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--background-gray);
+  font-family: "Segoe UI", sans-serif;
+}
+
+.mainContent {
+  color: #000000;
+  flex: 1;
+  padding: 2rem;
+  background-color: #f5f5f5;
+}
+
+.header {
+  background: linear-gradient(to right, #0e6ac4, var(--primary-red));
+  padding: 1.5rem 2rem;
+  color: white;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  font-size: 1.6rem;
+  margin-bottom: 0.25rem;
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+.formSection {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin-top: 1rem;
+}
+
+.fileUpload {
+  margin: 1.5rem 0;
+}
+
+.fileInput {
+  display: none;
+}
+
+.fileLabel {
+  color: #000000;
+  display: block;
+  padding: 0.5rem;
+  border: 1px dashed #ccc;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+.note {
+  color: #000000;
+  font-size: 0.9rem;
+  color: #666;
+  margin: 1rem 0;
+}
+
+.driveLink {
+  color: #ffffff;
+  margin: 1.5rem 0;
+}
+
+.linkInput {
+  color: #000000;
+  opacity: 1;
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.saveButton {
+  background-color: #4caf50;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.saveButton:hover {
+  background-color: #45a049;
+}
