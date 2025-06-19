@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import styles from "./Sidebar.module.css";
 
 export const SidebarAdmin = ({ activeItem }) => {
@@ -14,12 +15,12 @@ export const SidebarAdmin = ({ activeItem }) => {
 
   const menuItems = [
     {
-      icon: "✅",
+      icon: "/general.svg",
       href: "/escuelas-registradas",
       label: "Escuelas registradas",
     },
     {
-      icon: "📋",
+      icon: "/clock.svg",
       href: "/solicitudes-pendientes",
       label: "Solicitudes pendientes",
     },
@@ -36,12 +37,12 @@ export const SidebarAdmin = ({ activeItem }) => {
           {menuItems.map((item) => (
             <Link key={item.label} href={item.href}>
               <li
-                key={item.label}
                 className={`${styles.navItem} ${
                   activeItem === item.label ? styles.active : ""
                 }`}
               >
-                <span>{item.icon}</span> {item.label}
+                <Image src={item.icon} alt={item.label} width={22} height={22} />
+                {item.label}
               </li>
             </Link>
           ))}

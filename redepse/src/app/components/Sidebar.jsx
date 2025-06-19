@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import styles from "./Sidebar.module.css";
+
 
 export const Sidebar = ({ activeItem }) => {
   const router = useRouter();
@@ -13,13 +15,13 @@ export const Sidebar = ({ activeItem }) => {
   };
 
   const menuItems = [
-    { icon: "📋", href: "/datos-generales", label: "Datos generales" },
-    { icon: "✅", href: "/habilitaciones", label: "Habilitaciones" },
-    { icon: "⚽", href: "/disciplinas", label: "Disciplinas" },
-    { icon: "👨‍🏫", href: "/datos-entrenadores", label: "Entrenadores" },
-    { icon: "👥", href: "/datos-alumnos", label: "Alumnos" },
-    { icon: "🧑‍🤝‍🧑", href: "/tutores", label: "Tutores" },
-    { icon: "📤", href: "/finalizar-registro", label: "Finalizar registro" },
+    { icon: "/general.svg", href: "/datos-generales", label: "Datos generales" },
+    { icon: "/document.svg", href: "/habilitaciones", label: "Habilitaciones" },
+    { icon: "/sports.svg", href: "/disciplinas", label: "Disciplinas" },
+    { icon: "/coach.svg", href: "/datos-entrenadores", label: "Entrenadores" },
+    { icon: "/child.svg", href: "/datos-alumnos", label: "Alumnos" },
+    { icon: "/parent.svg", href: "/tutores", label: "Tutores" },
+    { icon: "/finish.svg", href: "/finalizar-registro", label: "Finalizar registro" }
   ];
 
   return (
@@ -33,12 +35,12 @@ export const Sidebar = ({ activeItem }) => {
           {menuItems.map((item) => (
             <Link key={item.label} href={item.href}>
               <li
-                key={item.label}
                 className={`${styles.navItem} ${
                   activeItem === item.label ? styles.active : ""
                 }`}
               >
-                <span>{item.icon}</span> {item.label}
+                <Image src={item.icon} alt={item.label} width={22} height={22} />
+                {item.label}
               </li>
             </Link>
           ))}
