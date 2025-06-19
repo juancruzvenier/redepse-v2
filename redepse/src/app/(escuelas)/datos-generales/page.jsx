@@ -1,6 +1,6 @@
 "use client"; // Indica que es un Client Component
-
-import { useState , useEffect } from "react";
+import Link from "next/link";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Sidebar } from "@/src/app/components/Sidebar";
 import styles from "./datosgenerales.module.css";
@@ -34,7 +34,7 @@ export default function DatosGenerales() {
     }
 
     fetchUser();
-  }, []);  
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -173,9 +173,12 @@ export default function DatosGenerales() {
         </form>
 
         <section className={styles.nextSection}>
-          <button className={`${styles.button} ${styles.buttonSuccess}`}>
+          <Link
+            href="/habilitaciones"
+            className={`${styles.button} ${styles.buttonSuccess}`}
+          >
             Siguiente →
-          </button>
+          </Link>
         </section>
       </main>
     </div>

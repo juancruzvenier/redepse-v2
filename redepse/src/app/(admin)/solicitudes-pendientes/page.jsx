@@ -77,10 +77,30 @@ export default function SolicitudesPendientes() {
                       <td>
                         <section className={styles.nextSection}>
                           <Link
-                            href="/escuelas/panel"
-                            className={`${styles.button} ${styles.buttonSuccess}`}
+                            href="/solicitudes-pendientes/panel"
+                            className={`${styles.button} ${styles.buttonVerDatos}`}
                           >
                             Ver datos
+                          </Link>
+                        </section>
+                      </td>
+                      <td>
+                        <section className={styles.nextSection}>
+                          <Link
+                            href="/solicitudes-pendientes/panel"
+                            className={`${styles.button} ${styles.buttonAprobar}`}
+                          >
+                            Aprobar
+                          </Link>
+                        </section>
+                      </td>
+                      <td>
+                        <section className={styles.nextSection}>
+                          <Link
+                            href="/solicitudes-pendientes/panel"
+                            className={`${styles.button} ${styles.buttonRechazar}`}
+                          >
+                            Rechazar
                           </Link>
                         </section>
                       </td>

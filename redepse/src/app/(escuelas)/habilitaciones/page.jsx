@@ -1,5 +1,5 @@
 "use client";
-
+import Link from "next/link";
 import { Sidebar } from "@/src/app/components/Sidebar";
 import styles from "./habilitaciones.module.css"; // Opcional: si necesitas estilos específicos
 
@@ -68,9 +68,14 @@ export default function Habilitaciones() {
               </label>
             </div>
 
-            <button type="submit" className={styles.saveButton}>
-              Guardar
-            </button>
+            <section className={styles.nextSection}>
+              <Link
+                href="/disciplinas"
+                className={`${styles.button} ${styles.buttonSuccess}`}
+              >
+                Siguiente →
+              </Link>
+            </section>
           </form>
         </section>
       </main>

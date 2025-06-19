@@ -1,77 +1,18 @@
 "use client";
 
-<<<<<<< HEAD
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation"; // <- IMPORTANTE
-=======
 import { useState } from "react";
 import { useRouter } from "next/navigation";
->>>>>>> 91d648ca5950fe6cc4b36a2bee5834b077d78d82
 import styles from "./login.module.css";
 import Image from "next/image";
 import logo from "@/public/favicon-sde.png";
 
 export default function Login() {
-<<<<<<< HEAD
-  const router = useRouter(); // <- USAMOS ESTO PARA REDIRECCIONAR
-
-=======
   const router = useRouter();
->>>>>>> 91d648ca5950fe6cc4b36a2bee5834b077d78d82
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-<<<<<<< HEAD
-  const handleSubmit = async (data) => {
-    data.preventDefault();
-
-    if (!email || !password) {
-      setError("Por favor, ingrese ambos campos");
-      return;
-    }
-
-    setError("");
-
-    try {
-      const res = await fetch("/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: data.email,
-          contraseña: data.contraseña,
-        }),
-      });
-
-      if (!res.ok) {
-        const data = await res.json();
-        setError(data.message || "Error al iniciar sesión");
-        return;
-      }
-
-      const { data } = await res.json();
-
-      // 🔁 Redirige según el rol
-      if (data.rol === "admin") {
-        router.push("/app/(admin)");
-      } else if (data.rol === "escuela") {
-        router.push("/datos-generales");
-      } else {
-        setError("Rol desconocido");
-      }
-    } catch (err) {
-      console.error("Error al iniciar sesión:", err);
-      setError("Error en el servidor");
-    }
-  };
-
-  /*
-  const handleSubmit = (e) => {
-=======
   const handleSubmit = async (e) => {
->>>>>>> 91d648ca5950fe6cc4b36a2bee5834b077d78d82
     e.preventDefault();
 
     if (!email || !password) {
@@ -100,7 +41,7 @@ export default function Login() {
 
       // Redirección por rol
       if (data.tipo === "admin") {
-        router.push("/admin/dashboard");
+        router.push("/escuelas-registradas");
       } else if (data.tipo === "escuela") {
         router.push("/datos-generales");
       } else {
@@ -110,7 +51,7 @@ export default function Login() {
       setError("Error del servidor. Intente más tarde.");
     }
   };
-*/
+
   return (
     <div className={styles.container}>
       <div className={styles.formWrapper}>

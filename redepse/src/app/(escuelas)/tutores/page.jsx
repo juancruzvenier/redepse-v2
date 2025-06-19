@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Sidebar } from "@/src/app/components/Sidebar";
@@ -307,12 +308,13 @@ export default function RegistroTutores() {
         </div>
 
         <section className={styles.nextSection}>
-          <button
+          <Link
+            href="/finalizar-registro"
             className={`${styles.button} ${styles.buttonSuccess}`}
             disabled={tutores.length === 0}
           >
             Siguiente →
-          </button>
+          </Link>
         </section>
 
         {showToast && (

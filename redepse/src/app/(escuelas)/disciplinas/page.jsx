@@ -1,5 +1,5 @@
 "use client"; // Indica que es un Client Component
-
+import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Sidebar } from "@/src/app/components/Sidebar";
@@ -111,12 +111,13 @@ export default function Disciplinas() {
         )}
 
         <section className={styles.nextSection}>
-          <button
+          <Link
+            href="/datos-entrenadores"
             className={`${styles.button} ${styles.buttonSuccess}`}
             disabled={savedDisciplines.length === 0}
           >
             Siguiente →
-          </button>
+          </Link>
         </section>
 
         {showToast && (
